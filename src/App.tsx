@@ -3,7 +3,7 @@ import Voice from './views/Voice';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-100">
       <Voice />
     </div>
   );
