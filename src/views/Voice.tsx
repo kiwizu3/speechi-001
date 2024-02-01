@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import useTextToSpeech from '../hooks/useTextToSpeech';
 
+const sampleSSML = "<speak> Here are <say-as interpret-as=\"characters\">SSML</say-as> samples. I can pause <break time=\"3s\"/>. I can play a sound <audio src=\"https://www.example.com/MY_MP3_FILE.mp3\">didn't get your MP3 audio file</audio>. I can speak in cardinals. Your number is <say-as interpret-as=\"cardinal\">10</say-as>. Or I can speak in ordinals. You are <say-as interpret-as=\"ordinal\">10</say-as> in line. Or I can even speak in digits. The digits for ten are <say-as interpret-as=\"characters\">10</say-as>. I can also substitute phrases, like the <sub alias=\"World Wide Web Consortium\">W3C</sub>. Finally, I can speak a paragraph with two sentences. <p><s>This is sentence one.</s><s>This is sentence two.</s></p> </speak>";
+
 const Voice = () => {
   const [ssmlInput, setSSMLInput] = useState<string>('');
 
@@ -10,9 +12,16 @@ const Voice = () => {
     setSSMLInput(event.target.value);
   };
 
-  const handleSynthesizeClick = () => {
+  const handleSynthesize = () => {
     synthesizeText(ssmlInput);
   };
+
+  const loadSampleSSML = () => {
+    setSSMLInput(sampleSSML);
+  }
+  const clearSSML = () =>{
+    setSSMLInput('');
+  }
 
   // useEffect(() => {
   //   synthesizeText(ssmlInput);
@@ -33,7 +42,11 @@ const Voice = () => {
           cols={50}
         />
         <br />
-        <button className="btn btn-sm btn-dark" onClick={handleSynthesizeClick}>{loading ? "Synthesizing..." : "Synthesize"}</button>
+        <div className="d-flex justify-content-between">
+        <button className="btn btn-sm rounded-0 btn-dark" onClick={loadSampleSSML}>Load Sample</button>
+        <button className="btn btn-sm rounded-0 btn-success ms-auto me-2" onClick={handleSynthesize}>{loading ? "Synthesizing..." : "Synthesize"}</button>
+        <button className="btn btn-sm rounded-0 btn-danger" onClick={clearSSML}>Clear</button>
+        </div>
         <br />
         {error && <p>{error}</p>}
 
